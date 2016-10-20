@@ -30,15 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             this.playground = new System.Windows.Forms.Panel();
-            this.racket = new System.Windows.Forms.PictureBox();
-            this.ball = new System.Windows.Forms.PictureBox();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.score_label = new System.Windows.Forms.Label();
-            this.points_label = new System.Windows.Forms.Label();
             this.gameover_label = new System.Windows.Forms.Label();
+            this.points_label = new System.Windows.Forms.Label();
+            this.score_label = new System.Windows.Forms.Label();
+            this.ball = new System.Windows.Forms.PictureBox();
+            this.racket = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.playground.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.racket)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.racket)).BeginInit();
             this.SuspendLayout();
             // 
             // playground
@@ -54,38 +55,16 @@
             this.playground.Size = new System.Drawing.Size(670, 482);
             this.playground.TabIndex = 0;
             // 
-            // racket
+            // gameover_label
             // 
-            this.racket.BackColor = System.Drawing.Color.Black;
-            this.racket.Location = new System.Drawing.Point(213, 252);
-            this.racket.Name = "racket";
-            this.racket.Size = new System.Drawing.Size(200, 30);
-            this.racket.TabIndex = 0;
-            this.racket.TabStop = false;
-            // 
-            // ball
-            // 
-            this.ball.BackColor = System.Drawing.Color.Lime;
-            this.ball.Location = new System.Drawing.Point(144, 80);
-            this.ball.Name = "ball";
-            this.ball.Size = new System.Drawing.Size(30, 30);
-            this.ball.TabIndex = 1;
-            this.ball.TabStop = false;
-            // 
-            // timer
-            // 
-            this.timer.Interval = 1;
-            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // score_label
-            // 
-            this.score_label.AutoSize = true;
-            this.score_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.score_label.Location = new System.Drawing.Point(12, 9);
-            this.score_label.Name = "score_label";
-            this.score_label.Size = new System.Drawing.Size(97, 32);
-            this.score_label.TabIndex = 2;
-            this.score_label.Text = "Score:";
+            this.gameover_label.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.gameover_label.AutoSize = true;
+            this.gameover_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gameover_label.Location = new System.Drawing.Point(203, 89);
+            this.gameover_label.Name = "gameover_label";
+            this.gameover_label.Size = new System.Drawing.Size(277, 220);
+            this.gameover_label.TabIndex = 4;
+            this.gameover_label.Text = "Game over\r\n\r\nF1 - Restart\r\nESC - Quit";
             // 
             // points_label
             // 
@@ -97,16 +76,38 @@
             this.points_label.TabIndex = 3;
             this.points_label.Text = "0";
             // 
-            // gameover_label
+            // score_label
             // 
-            this.gameover_label.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gameover_label.AutoSize = true;
-            this.gameover_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gameover_label.Location = new System.Drawing.Point(203, 89);
-            this.gameover_label.Name = "gameover_label";
-            this.gameover_label.Size = new System.Drawing.Size(277, 220);
-            this.gameover_label.TabIndex = 4;
-            this.gameover_label.Text = "Game over\r\n\r\nF1 - Restart\r\nESC - Quit";
+            this.score_label.AutoSize = true;
+            this.score_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.score_label.Location = new System.Drawing.Point(12, 9);
+            this.score_label.Name = "score_label";
+            this.score_label.Size = new System.Drawing.Size(97, 32);
+            this.score_label.TabIndex = 2;
+            this.score_label.Text = "Score:";
+            // 
+            // ball
+            // 
+            this.ball.BackColor = System.Drawing.Color.Lime;
+            this.ball.Location = new System.Drawing.Point(144, 80);
+            this.ball.Name = "ball";
+            this.ball.Size = new System.Drawing.Size(30, 30);
+            this.ball.TabIndex = 1;
+            this.ball.TabStop = false;
+            // 
+            // racket
+            // 
+            this.racket.BackColor = System.Drawing.Color.Black;
+            this.racket.Location = new System.Drawing.Point(213, 252);
+            this.racket.Name = "racket";
+            this.racket.Size = new System.Drawing.Size(200, 30);
+            this.racket.TabIndex = 0;
+            this.racket.TabStop = false;
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1;
+            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -119,8 +120,8 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.playground.ResumeLayout(false);
             this.playground.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.racket)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.racket)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -134,6 +135,7 @@
         private System.Windows.Forms.Label score_label;
         private System.Windows.Forms.Label points_label;
         private System.Windows.Forms.Label gameover_label;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
